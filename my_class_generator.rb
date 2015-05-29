@@ -1,5 +1,5 @@
 require 'csv'
-require 'Matrix'
+require 'matrix'
 
 def randomString
   o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten

@@ -1,7 +1,7 @@
 require 'matrix'
-load 'ruby3.rb'
-load 'ruby2.rb'
-load 'ruby.rb'
+load 'int_metric.rb'
+load 'double_metric.rb'
+load 'string_metric.rb'
 load 'my_class_generator.rb'
 
 
