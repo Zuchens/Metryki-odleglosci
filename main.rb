@@ -70,7 +70,7 @@ matrix = supersort(matrix)
 
 ending = matrix
 
-File.open('csvGenerated.csv','w') do |file|
+File.open('csvGeneratedwNoise.csv','w') do |file|
   for i in 0..matrix.row_size-1
   m=0
   for vector in matrix.column_vectors()
