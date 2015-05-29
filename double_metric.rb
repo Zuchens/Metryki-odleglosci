@@ -14,6 +14,7 @@ def scal(vector)
 		 max=item
 		end
 	end
+	vector = vector.collect{ |x| x.to_f }
 	vector = vector/max.abs()
 	vector = vector.collect{ |x| x.round(5) }
 return vector

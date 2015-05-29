@@ -3,6 +3,7 @@ load 'int_metric.rb'
 load 'double_metric.rb'
 load 'string_metric.rb'
 load 'my_class_generator.rb'
+load 'sort.rb'
 
 
 class Matrix
@@ -35,23 +36,23 @@ def count_meter_coulmn(i, vector)
      end
      out.put(x, a)
   end
-  if compareElement.is_a? Float
+
        out =  scal(out)
-  end
+
    return out
  end
 
 def main(filename)
 columny = 3
+matrix = readCsvToSingleMatrix(filename, columny)
 
-matrix = readCsvToSingleMatrix(filename, 3)
 
 matrix.each_with_index do |x, row, col|
    if x.eql?"schwefel"
-   matrix.put(row, col, 1)
+   matrix.put(row, col, 1.0)
   end
   if x.eql?"rastrigin"
-   matrix.put(row, col, 2)
+   matrix.put(row, col, 2.0)
   end	
   item = x
    a = item.to_f
@@ -63,6 +64,10 @@ matrix.each_with_index do |x, row, col|
     matrix.put(row, col, b)
   end
 end
+
+matrix = supersort(matrix)
+
+
 ending = matrix
 
 File.open('csvGenerated.csv','w') do |file|
@@ -89,9 +94,11 @@ File.open('csvGenerated.csv','w') do |file|
     end
 end
 end
+
 end
 #puts main("data.csv")
 
  a = ARGF.argv
 main('data.csv')
+
 #main('generated.csv')
