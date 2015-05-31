@@ -33,9 +33,11 @@ require 'fileutils'
 def method(outputPng)
 
 gnuplot_commands = <<"End"
+  set key outside
   set terminal png
+  set datafile separator ","
   set output "plot.png"
-  plot "test1.csv" using 0:1 with lines, "test2.csv" using 0:1 with lines, "test3.csv" using 0:1 with lines
+  plot for [col=1:14] 'test1.csv' using 0:col with lines
 End
 
 image, s = Open3.capture2(
