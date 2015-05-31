@@ -1,5 +1,7 @@
+#!/usr/bin/env ruby
 require 'csv'
 require 'matrix'
+
 
 def randomString
   o = [('a'..'z'), ('A'..'Z')].map { |i| i.to_a }.flatten
@@ -18,20 +20,7 @@ def randomDouble
 end
 
 
-#nie dziala
-def concatenateString (typeOfParameter, stringToConcanenate)
-  if typeOfParameter == 0
-    stringToConcanenate  = stringToConcanenate + randomInteger.to_s + ","
-  elsif typeOfParameter == 1
-    stringToConcanenate  = stringToConcanenate + randomDouble.to_s +  ","
-  else
-    stringToConcanenate  = stringToConcanenate + randomString + ","
-  end
-  return stringToConcanenate
-end
-
-
-
+#Use only for generated csv by generateCSV method
 def generateCSV(numberOfColumnsInInput, numberOfColumnsInOutput, numberOfLines)
 
   parametersTypesForInput = []
@@ -47,7 +36,6 @@ def generateCSV(numberOfColumnsInInput, numberOfColumnsInOutput, numberOfLines)
       myString = ""
       (0..numberOfColumnsInInput+numberOfColumnsInOutput).each do |j|
         if j < numberOfColumnsInInput - 1
-          #myString = concatenateString (parametersTypesForInput[j], myString) nie wiem czemu nie dziala, bez tego copy pasta murowana
           if parametersTypesForInput[j] == 0
             myString  = myString + randomInteger.to_s + ","
           elsif parametersTypesForInput[j] == 1
@@ -92,15 +80,8 @@ def generateCSV(numberOfColumnsInInput, numberOfColumnsInOutput, numberOfLines)
   }
 end
 
-
-class Matrix
-  def put(i, j, x)
-    @rows[i][j] = x
-  end
-end
-
+#Use only for generated csv by generateCSV method
 def readCsvToMatrix(numberOfColumnsInInput, numberOfColumnsInOutput, numberOfLines)
-
 
   matrixForInput = Matrix[]#.build(numberOfColumnsInInput, numberOfLines)
   matrixForOutput = Matrix[]#.build(numberOfColumnsInOutput, numberOfLines)
@@ -145,7 +126,7 @@ end
 
 
 
-
+#readFromEnd of csv file
 def readCsvToSingleMatrix(nameOfFile, numberOfOutputColumns)
   i = 0
   prevNumberOfColumns = 0
@@ -165,7 +146,6 @@ def readCsvToSingleMatrix(nameOfFile, numberOfOutputColumns)
         prevNumberOfColumns = currentNumberOfColumns
       end
     end
-
   end
 
   #Sprawdzamy czy nie zadamy za duzej liczby kolumn
@@ -190,18 +170,23 @@ def readCsvToSingleMatrix(nameOfFile, numberOfOutputColumns)
 
 end
 
-def standard_deviation(nameOfFile, numberOfOutputColumns)
-  m = readCsvToSingleMatrix(nameOfFile, numberOfOutputColumns)
+#We know that we've got csv with 13 columns, need to change to work with any csv
+def readCsvForPlot(nameOfFile, indexOfInputColumn) 
+  currentNumberOfColumns = 13
+  m = Matrix[]
 
-    (0..numberOfOutputColumns - 1).each do |i|
-      sumForColumn = 0
-      avgForColumn = 0
-      (0...m.column_size).each do |j|
-        sumForColumn += m[i,j].to_s.to_f
+  CSV.foreach(nameOfFile, quote_char: '"', col_sep: ',', row_sep: :auto, headers: true) do |row|
+    arrayForRow = Array.new
+    (0..currentNumberOfColumns - 1).each do |i|
+      if i == indexOfInputColumn || i == 10 || i == 11 || i == 12
+        arrayForRow.push(row[i].to_s)
       end
-      puts sumForColumn  / m.column_size
+    end
+    m = Matrix.rows(m.to_a << arrayForRow)
   end
+  return m
 end
 
-#standard_deviation('data.csv', 13)
-generateCSV(5,5,100)
+#puts readCsvForPlot('data.csv', 0).rows.size
+#puts readCsvToSingleMatrix('data.csv', 4)
+#generateCSV(5,5,100)
