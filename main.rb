@@ -52,8 +52,8 @@ def count_meter_coulmn(i, vector)
 
 def main(filename, indexOfInputColumn)
   columny = 3 + indexOfInputColumn
-  matrix = readCsvToSingleMatrix(filename, columny)
-  #matrix = readCsvForPlot(filename, indexOfInputColumn)
+  #matrix = readCsvToSingleMatrix(filename, columny)
+  matrix = readCsvForPlot(filename, indexOfInputColumn)
 
   
 
@@ -146,7 +146,7 @@ end
 
 def runTests(filename)
   numberOfInputColumns = 10
-  for i in 1..numberOfInputColumns
+  for i in 0..numberOfInputColumns-1
     main(filename, i)
     method('output'+i.to_s+'.png')
   end

@@ -37,7 +37,8 @@ gnuplot_commands = <<"End"
   set terminal png
   set datafile separator ","
   set output "plot.png"
-  plot for [col=1:14] 'test1.csv' using 0:col with lines
+  #remove all labels  
+  plot for [col=1:14] 'test1.csv' using 0:col with lines notitle
 End
 
 image, s = Open3.capture2(
